@@ -1,0 +1,209 @@
+.searchComponent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  transition: 0.3s all ease-out;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid #dfdfdf;
+  padding: 16px 1rem;
+  background-color: var(--color-white);
+  height: 88px;
+  width: 80%;
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  border-radius: 100px;
+  border: none;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.selectItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selectItem p {
+  font-size: 14px;
+}
+
+.statusInd {
+  width: 8px;
+  height: 8px;
+  border-radius: 16px;
+  background-color: #26bf26;
+  margin-bottom: 2px;
+}
+
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+.inputDiv label {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.inputDiv p {
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.inputDiv input {
+  height: 30px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.methodsNames {
+  display: -webkit-box;
+  max-width: 90%;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  width: 100%;
+}
+
+.divider {
+  border-left: 1px solid #d9d9d9;
+  height: 100%;
+}
+
+.drawer {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+  padding: 1rem 0.5rem;
+  gap: 1rem;
+}
+
+.accordionHead,
+.sourceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.accordionHead h6 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sourceDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 2px solid var(--color-black);
+  gap: 1rem;
+}
+
+.sourceDiv p {
+  font-size: 14px;
+}
+
+.addFilters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background-color: transparent;
+}
+
+.codeBlock {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  width: 100%;
+  min-height: 200px;
+}
+
+.filterName {
+  color: var(--font-secondary);
+}
+
+.sortList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  border: 1px solid var(--color-black);
+  margin-right: 2px;
+}
+
+.source {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.source h6 {
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+}
+
+.workflowHover {
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 16px;
+  width: 200px;
+  background-color: var(--color-white);
+  padding: 1rem;
+  box-shadow: rgba(14, 63, 126, 0.06) 0px 0px 0px 1px,
+    rgba(42, 51, 70, 0.03) 0px 1px 1px -0.5px,
+    rgba(42, 51, 70, 0.04) 0px 2px 2px -1px,
+    rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+    rgba(42, 51, 70, 0.03) 0px 5px 5px -2.5px,
+    rgba(42, 51, 70, 0.03) 0px 10px 10px -5px,
+    rgba(42, 51, 70, 0.03) 0px 24px 24px -8px;
+  position: absolute;
+  top: 0; /* sticks to the same vertical level         */
+  left: calc(100% + 8px); /* 8 px gap to the right of the menu         */
+}
+
+.loadingDialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  min-height: 200px;
+}
+
+.loadingDialog h6 {
+  font-size: 16px;
+  font-weight: 500;
+}

@@ -1,0 +1,184 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.head {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 2rem;
+}
+
+.head h1 {
+  font-size: 24px;
+}
+
+.actionBtns {
+  display: flex;
+  gap: 1rem;
+}
+
+.actionBtns button {
+  padding: 1rem;
+  border-radius: 100px;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--gray-c5c5c5);
+  font-family: var(--font-familiy);
+}
+
+.resultContentDiv {
+  /*  display: grid;
+  grid-template-columns: 20vw 1fr; */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem 2rem;
+  /*   overflow-x: hidden; */
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: #f6f6f6;
+  gap: 0.9rem;
+  height: max-content;
+  min-width: 250px;
+}
+
+.navDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navDiv p {
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.navDiv a {
+  font-weight: 400;
+  color: var(--font-secondary);
+  font-size: 14px;
+  max-width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.navDiv p:hover,
+.navDiv a:hover {
+  color: #03bbc2;
+}
+
+.subnav {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.2rem;
+}
+
+.resultContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: calc(100% - 250px - 8rem);
+  max-width: 100%;
+}
+
+.resultDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.resultDiv h6 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.resultMethodsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.resultMethod {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* TABLE DISPLAY */
+
+.tableDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--gray-c5c5c5);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.resultValues {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid #c6c6c6;
+  border-radius: 8px;
+}
+
+.field {
+  display: flex;
+  gap: 8px;
+}
+
+.field strong {
+  font-weight: 400;
+  color: var(--font-secondary);
+  min-width: 120px;
+  max-width: 120px;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  font-size: 16px;
+}
+
+.field p {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}

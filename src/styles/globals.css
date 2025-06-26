@@ -1,0 +1,26 @@
+:root {
+  --color-white: #ffffff;
+  --color-black: #171717;
+  --font-secondary: #656565;
+  --gray-c5c5c5: #c5c5c5;
+
+  --font-familiy: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-familiy);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
+button,
+a {
+  font-family: var(--font-familiy);
+  cursor: pointer;
+}
