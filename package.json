@@ -18,7 +18,7 @@
     "@tsparticles/plugin-polygon-mask": "^3.8.1",
     "@tsparticles/react": "^3.0.0",
     "axios": "^1.10.0",
-    "html2pdf.js": "^0.9.0",
+    "html2pdf.js": "^0.10.3",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
