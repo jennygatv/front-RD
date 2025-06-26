@@ -3,13 +3,7 @@ import Header from "@/components/Header";
 import { useResultsStore } from "@/stores/results.store";
 import React, { useRef } from "react";
 import styles from "@/styles/results.module.css";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+
 import { DataGrid } from "@mui/x-data-grid";
 
 const ResultsPage = () => {
@@ -146,7 +140,7 @@ const ResultsPage = () => {
     <main className={styles.main}>
       <Header showNewSearch />
       <section className={styles.head}>
-        <h1>Resultados de </h1>
+        <h1>Resultados de {`"${results.search_term}"`}</h1>
         <div className={styles.actionBtns}>
           {/*  <button onClick={handleExportPDF}>Exportar PDF</button> */}
           <button onClick={() => handleExportHTML()}>Exportar</button>

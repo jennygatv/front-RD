@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const startWorkflow = async (workflow_name: string) => {
   try {
-    /*   const response = await axios.post("/api/stage3/start_workflow", {
+    const response = await axios.post("/api/stage3/start_workflow", {
       workflow_name,
     });
-    if (response.status !== 200) {
+    /*  if (response.status !== 200) {
       return { success: false, data: response.data };
     } */
     return {

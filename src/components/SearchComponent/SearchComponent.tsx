@@ -152,7 +152,7 @@ const SearchComponent = ({
         return;
       }
 
-      setLoadingMsg("Changiong to stage 3");
+      setLoadingMsg("Changing to stage 3");
 
       const setStage3Response = await setStage3(workFlowSelected?.name || "");
 
