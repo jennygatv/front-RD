@@ -226,6 +226,32 @@ const ResultsPage = () => {
                               headerName: key,
                               flex: 1,
                               minWidth: key === "Function" ? 200 : 100,
+                              renderCell: (params) => {
+                                // Detectar si es una URL o si la columna contiene "link" o "url"
+                                const value = params.value;
+                                const isUrl = typeof value === 'string' && 
+                                  (value.startsWith('http://') || value.startsWith('https://') || 
+                                   key.toLowerCase().includes('link') || 
+                                   key.toLowerCase().includes('url'));
+                                
+                                if (isUrl) {
+                                  return (
+                                    <a 
+                                      href={value} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      style={{ 
+                                        color: '#1976d2', 
+                                        textDecoration: 'underline',
+                                        cursor: 'pointer' 
+                                      }}
+                                    >
+                                      {value}
+                                    </a>
+                                  );
+                                }
+                                return value;
+                              }
                             }))}
                             sx={{
                               border: "none",
