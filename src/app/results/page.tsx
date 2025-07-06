@@ -276,11 +276,37 @@ const ResultsPage = () => {
                         <div className={styles.resultValues}>
                           {method.data.map((value: any, index: number) => (
                             <div className={styles.value} key={index}>
-                              {Object.entries(value).map(([key, value], i) => (
-                                <div key={i} className={styles.field}>
-                                  <strong>{key}</strong> <p>{String(value)}</p>
-                                </div>
-                              ))}
+                              {Object.entries(value).map(([key, value], i) => {
+                                // Detectar si es una URL o si la columna contiene "link" o "url"
+                                const isUrl = typeof value === 'string' && 
+                                  (value.startsWith('http://') || value.startsWith('https://') || 
+                                   key.toLowerCase().includes('link') || 
+                                   key.toLowerCase().includes('url'));
+                                
+                                return (
+                                  <div key={i} className={styles.field}>
+                                    <strong>{key}</strong> 
+                                    <p>
+                                      {isUrl ? (
+                                        <a 
+                                          href={value} 
+                                          target="_blank" 
+                                          rel="noopener noreferrer"
+                                          style={{ 
+                                            color: '#1976d2', 
+                                            textDecoration: 'underline',
+                                            cursor: 'pointer' 
+                                          }}
+                                        >
+                                          {String(value)}
+                                        </a>
+                                      ) : (
+                                        String(value)
+                                      )}
+                                    </p>
+                                  </div>
+                                );
+                              })}
                             </div>
                           ))}
                         </div>
