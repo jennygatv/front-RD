@@ -13,7 +13,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import { MdFullscreen } from "react-icons/md";
 import SearchComponent from "@/components/SearchComponent/SearchComponent";
-import { MdCheckCircle, MdRemoveCircle, MdLock } from "react-icons/md";
+import { MdCheckCircle, MdRemoveCircle } from "react-icons/md";
 import { getWorkFlowsWithSources } from "@/services/stage1.service";
 import { WorkflowWithSources } from "@/types/workflow.types";
 
@@ -129,7 +129,7 @@ const Home = () => {
           <p>Loading</p>
         ) : (
           <section className={styles.workflows}>
-            <h6>Workflows</h6>
+            <h6 /* style={{ color: "var(--color-white)" }} */>Workflows</h6>
             <div className={styles.workflowDiv}>
               {workflowWithSources?.map((workflow) => (
                 <div className={styles.sourcesDiv} key={workflow.name}>

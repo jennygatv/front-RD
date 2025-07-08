@@ -2,7 +2,7 @@ import { MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 import styles from "@/styles/Search.module.css";
 import { WorkflowWithSources } from "@/types/workflow.types";
-import { MdCheckCircle } from "react-icons/md";
+import { MdCheckCircle, MdClose } from "react-icons/md";
 
 interface SelectWorkflowProps {
   workflowWithSources: WorkflowWithSources[];
@@ -72,7 +72,12 @@ const SelectWorkflow = ({
               onMouseLeave={() => setHoveredItem(null)}
             >
               <div className={styles.selectItem}>
-                <div className={styles.statusInd}></div>
+                <div
+                  className={styles.statusInd}
+                  style={{
+                    backgroundColor: wf.status ? "#26bf26 " : "#bf2626",
+                  }}
+                ></div>
                 <p>{wf.name}</p>
               </div>
               <div
@@ -81,7 +86,12 @@ const SelectWorkflow = ({
               >
                 {wf.steps.map((i) => (
                   <div className={styles.source} key={i.step_name}>
-                    <MdCheckCircle size={20} color="#26bf26" />
+                    {i.status === 200 ? (
+                      <MdCheckCircle size={20} color="#26bf26" />
+                    ) : (
+                      <MdClose size={20} color="#bf2626" />
+                    )}
+
                     <p>{i.step_name}</p>
                   </div>
                 ))}

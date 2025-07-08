@@ -9,6 +9,7 @@ import { DataGrid } from "@mui/x-data-grid";
 const ResultsPage = () => {
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
   const { results } = useResultsStore();
+
   const pdfRef = useRef<HTMLDivElement>(null); // NEW
   console.log("results", results);
 
@@ -41,9 +42,8 @@ const ResultsPage = () => {
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Informe interactivo</title>
+<title>${results?.search_term}</title>
 <style>
-  /* Aquí tus estilos CSS para la tabla, fonts, etc. */
   body { font-family: Arial, sans-serif; padding: 20px; }
   table { border-collapse: collapse; width: 100%; }
   th, td { border: 1px solid #ccc; padding: 8px; }
@@ -51,16 +51,15 @@ const ResultsPage = () => {
 </style>
 </head>
 <body>
-<h1>Informe interactivo</h1>
+<h1>${results?.search_term}</h1>
 
 <div id="content"></div>
 
 <script>
-  // Datos inyectados desde React
   const results = ${data};
 
   // Función para crear tabla simple a partir de datos
-  function renderResults(data) {
+const renderResults = (data) =>{
     const content = document.getElementById('content');
     if (!data || !data.categories) {
       content.innerHTML = '<p>No hay datos.</p>';
@@ -110,7 +109,6 @@ const ResultsPage = () => {
     });
   }
 
-  // Renderiza la tabla con los datos
   renderResults(results);
 </script>
 </body>
@@ -122,7 +120,7 @@ const ResultsPage = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "informe-interactivo.html";
+    a.download = `${results?.search_term}.html`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -148,7 +146,7 @@ const ResultsPage = () => {
       </section>
       <section className={styles.resultContentDiv}>
         <div className={styles.nav}>
-          {results?.categories.map((step) => (
+          {results?.categories?.map((step) => (
             <div key={step.section} className={styles.navDiv}>
               <p
                 id={`fuente-${step.section}`}
@@ -229,33 +227,29 @@ const ResultsPage = () => {
                               renderCell: (params) => {
                                 // Detectar si es una URL o si la columna contiene "link" o "url"
                                 const value = params.value;
-                                const isUrl = typeof value === 'string' && 
-                                  (value.startsWith('http://') || value.startsWith('https://') || 
-                                   key.toLowerCase().includes('link') || 
-                                   key.toLowerCase().includes('url'));
-                                
+                                const isUrl =
+                                  typeof value === "string" &&
+                                  (value.startsWith("http://") ||
+                                    value.startsWith("https://"));
+
                                 if (isUrl) {
                                   return (
-                                    <a 
-                                      href={value} 
-                                      target="_blank" 
+                                    <a
+                                      href={value}
+                                      target="_blank"
                                       rel="noopener noreferrer"
-                                      style={{ 
-                                        color: '#1976d2', 
-                                        textDecoration: 'underline',
-                                        cursor: 'pointer' 
-                                      }}
+                                      className={styles.link}
                                     >
                                       {value}
                                     </a>
                                   );
                                 }
                                 return value;
-                              }
+                              },
                             }))}
                             sx={{
                               border: "none",
-                              fontSize: "14px",
+                              fontSize: "15px",
                               "& .MuiDataGrid-root": {
                                 width: "100%",
                               },
@@ -278,32 +272,27 @@ const ResultsPage = () => {
                             <div className={styles.value} key={index}>
                               {Object.entries(value).map(([key, value], i) => {
                                 // Detectar si es una URL o si la columna contiene "link" o "url"
-                                const isUrl = typeof value === 'string' && 
-                                  (value.startsWith('http://') || value.startsWith('https://') || 
-                                   key.toLowerCase().includes('link') || 
-                                   key.toLowerCase().includes('url'));
-                                
+                                const isUrl =
+                                  typeof value === "string" &&
+                                  (value.startsWith("http://") ||
+                                    value.startsWith("https://"));
+
                                 return (
                                   <div key={i} className={styles.field}>
-                                    <strong>{key}</strong> 
-                                    <p>
-                                      {isUrl ? (
-                                        <a 
-                                          href={value} 
-                                          target="_blank" 
-                                          rel="noopener noreferrer"
-                                          style={{ 
-                                            color: '#1976d2', 
-                                            textDecoration: 'underline',
-                                            cursor: 'pointer' 
-                                          }}
-                                        >
-                                          {String(value)}
-                                        </a>
-                                      ) : (
-                                        String(value)
-                                      )}
-                                    </p>
+                                    <strong>{key}</strong>
+
+                                    {isUrl ? (
+                                      <a
+                                        href={value}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.link}
+                                      >
+                                        {String(value)}
+                                      </a>
+                                    ) : (
+                                      <p>{String(value)} </p>
+                                    )}
                                   </div>
                                 );
                               })}
