@@ -98,9 +98,7 @@ const renderResults = (data) =>{
               
               // Detectar si es una URL o si la columna contiene "link" o "url"
               const isUrl = typeof value === 'string' && 
-                (value.startsWith('http://') || value.startsWith('https://') || 
-                 key.toLowerCase().includes('link') || 
-                 key.toLowerCase().includes('url'));
+                (value.startsWith('http://') || value.startsWith('https://'));
               
               if (isUrl) {
                 const link = document.createElement('a');
