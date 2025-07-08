@@ -93,9 +93,28 @@ const renderResults = (data) =>{
           // Data rows
           method.data.forEach(row => {
             const tr = document.createElement('tr');
-            Object.values(row).forEach(value => {
+            Object.entries(row).forEach(([key, value]) => {
               const td = document.createElement('td');
-              td.textContent = value;
+              
+              // Detectar si es una URL o si la columna contiene "link" o "url"
+              const isUrl = typeof value === 'string' && 
+                (value.startsWith('http://') || value.startsWith('https://') || 
+                 key.toLowerCase().includes('link') || 
+                 key.toLowerCase().includes('url'));
+              
+              if (isUrl) {
+                const link = document.createElement('a');
+                link.href = value;
+                link.textContent = value;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.style.color = '#1976d2';
+                link.style.textDecoration = 'underline';
+                td.appendChild(link);
+              } else {
+                td.textContent = value;
+              }
+              
               tr.appendChild(td);
             });
             tbody.appendChild(tr);
