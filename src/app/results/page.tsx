@@ -128,6 +128,11 @@ const renderResults = (data) =>{
 
   renderResults(results);
 </script>
+
+<div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ccc; font-style: italic; color: #666; text-align: center;">
+  <p>Informe elaborado mediante la colaboración del Departamento de Sistemas Informáticos de la UPM y el IIER del ISCIII</p>
+</div>
+
 </body>
 </html>
 `;
@@ -137,7 +142,18 @@ const renderResults = (data) =>{
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${results?.search_term}.html`;
+    
+    // Generar nombre del archivo con término de búsqueda y timestamp en zona horaria local
+    const now = new Date();
+    const timestamp = now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0') + 'T' +
+      String(now.getHours()).padStart(2, '0') + '-' +
+      String(now.getMinutes()).padStart(2, '0') + '-' +
+      String(now.getSeconds()).padStart(2, '0');
+    const sanitizedSearchTerm = results?.search_term.replace(/[^a-zA-Z0-9]/g, '_');
+    a.download = `informe_${sanitizedSearchTerm}_${timestamp}.html`;
+    
     a.click();
     URL.revokeObjectURL(url);
   };
