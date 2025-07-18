@@ -40,11 +40,6 @@ const SearchComponent = ({
     workflowWithSources[0]
   );
 
-  /*   console.log("workflowWithSources", workflowWithSources); */
-  /* 
-  const [workflowWithSources, setWorkflowWithSources] =
-    useState<WorkflowWithSources[]>(); */
-
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [searchId, setSearchId] = useState<string>();
   const [loadingMsg, setLoadingMsg] = useState<string>("Changing to stage 2");
@@ -58,22 +53,6 @@ const SearchComponent = ({
 
   const [filtersDraft, setFiltersDraft] = useState<DraftFilter[]>([]);
   console.log("filtersDraft", filtersDraft);
-
-  /*   useEffect(() => {
-    getWorkflowSources();
-  }, []);
-
-  const getWorkflowSources = async () => {
-    try {
-      const response = await getWorkFlowsWithSources();
-      if (!response.success) {
-      }
-      setWorkflowWithSources(response.data);
-      setWorkflowSelected(response.data[0]);
-    } catch (error) {
-      console.log("Error getting workflows", error);
-    }
-  }; */
 
   useEffect(() => {
     setWorkflowSelected(workflowWithSources[0]);
@@ -173,30 +152,6 @@ const SearchComponent = ({
       }
 
       console.log("startWorkflowReponse>>>>>>", startWorkflowReponse.data);
-
-      /*       const transformed = {
-        ...startWorkflowReponse.data,
-        results: startWorkflowReponse.data.results.map(
-          ({
-            fuente,
-            indice,
-            resultado,
-          }: {
-            fuente: string;
-            indice: number;
-            resultado: any;
-          }) => ({
-            fuente,
-            indice,
-            resultado: Object.entries(resultado).map(
-              ([method_name, values]) => ({
-                method_name,
-                values,
-              })
-            ),
-          })
-        ),
-      }; */
 
       setResults(startWorkflowReponse.data!);
 

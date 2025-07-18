@@ -4,13 +4,22 @@ import styles from "@/styles/Header.module.css";
 import { useRouter } from "next/navigation";
 import { useResultsStore } from "@/stores/results.store";
 
-const Header = ({ showNewSearch = false }: { showNewSearch?: boolean }) => {
+const Header = ({
+  showNewSearch = false,
+  color = "var(--color-primary)",
+}: {
+  showNewSearch?: boolean;
+  color?: string;
+}) => {
   const router = useRouter();
   const { setResults } = useResultsStore();
 
   return (
     <header className={styles.header}>
-      <h1 onClick={() => router.push("/")} style={{ cursor: "pointer" }}>
+      <h1
+        onClick={() => router.push("/")}
+        style={{ cursor: "pointer", color: color }}
+      >
         LOGO
       </h1>
 

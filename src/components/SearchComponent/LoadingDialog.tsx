@@ -14,7 +14,7 @@ const LoadingDialog = ({
       <DialogContent>
         <div className={styles.loadingDialog}>
           <h6>{loadingMsg}</h6>
-          <CircularProgress />
+          <CircularProgress sx={{ color: "var(color--primary)" }} />
         </div>
       </DialogContent>
     </Dialog>

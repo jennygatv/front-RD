@@ -5,7 +5,11 @@
   height: 8vh;
   width: 100%;
   padding: 0.5rem 2rem;
-  /*   color: var(--color-primary); */
+  z-index: 2;
+  /*   position: absolute; */
+
+  color: var(--color-white);
+  /*  color: var(--color-primary); */
 }
 
 .header button {

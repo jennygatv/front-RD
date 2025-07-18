@@ -76,7 +76,8 @@ const Home = () => {
 
   return (
     <main className={styles.main} style={{ height: isExpanded ? "100vh" : "" }}>
-      {!isExpanded ? <Header /> : null}
+      {!isExpanded ? <Header color="var(--color-white)" /> : null}
+      <div className={styles.background}></div>
       <section
         className={styles.hero}
         style={{

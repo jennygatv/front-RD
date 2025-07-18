@@ -5,13 +5,13 @@ import React, { useRef } from "react";
 import styles from "@/styles/results.module.css";
 
 import { DataGrid } from "@mui/x-data-grid";
+import { MdArrowUpward } from "react-icons/md";
 
 const ResultsPage = () => {
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
   const { results } = useResultsStore();
 
-  const pdfRef = useRef<HTMLDivElement>(null); // NEW
-  console.log("results", results);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   const handleExportPDF = async () => {
     if (!pdfRef.current) return;
@@ -23,8 +23,8 @@ const ResultsPage = () => {
       filename: "resultados.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
-        scale: 2, // higher quality
-        useCORS: true, // needed if you load external images
+        scale: 2,
+        useCORS: true,
       },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
@@ -33,106 +33,250 @@ const ResultsPage = () => {
   };
 
   const handleExportHTML = () => {
-    // Aquí conviertes tus datos a JSON
     const data = JSON.stringify(results);
 
-    // Construye un string HTML con los datos embebidos
     const htmlContent = `
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<title>${results?.search_term}</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #ccc; padding: 8px; }
-  th { background-color: #f0f0f0; }
-</style>
+  <meta charset="UTF-8" />
+  <title>${results?.search_term}</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      background-color: white;
+    }
+
+    .side-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background-color: #f9f9f9;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    }
+
+    .nav-section {
+      margin-bottom: 16px;
+    }
+
+    .nav-section p {
+      font-weight: bold;
+      margin: 0;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .nav-section p:hover {
+      background-color: #f0f0f0;
+      border-radius: 4px;
+    }
+
+    .subnav a {
+      display: block;
+      padding: 4px 12px;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+    }
+
+    .subnav a:hover {
+      background-color: #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .content {
+      margin-left: 240px;
+      padding: 20px;
+      width: calc(100% - 240px);
+    }
+
+    h1, h2, h3 {
+      scroll-margin-top: 100px;
+    }
+
+    h2{
+      margin-top: 24px;
+    }
+
+    h3{
+      margin-top: 16px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 16px;
+      max-width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      min-width: 600px;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    a {
+      color: #1976d2;
+    }
+
+    td a {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<h1>${results?.search_term}</h1>
+  <div class="side-nav" id="sidebar"></div>
+  <div class="content" id="content"></div>
 
-<div id="content"></div>
+  <script>
+    const results = ${data};
 
-<script>
-  const results = ${data};
-
-  // Función para crear tabla simple a partir de datos
-const renderResults = (data) =>{
+    const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
-    if (!data || !data.categories) {
+
+    if (!results || !results.categories) {
       content.innerHTML = '<p>No hay datos.</p>';
-      return;
-    }
-    
-    data.categories.forEach(category => {
-      const sectionTitle = document.createElement('h2');
-      sectionTitle.textContent = category.section;
-      content.appendChild(sectionTitle);
+    } else {
+      const h1 = document.createElement('h1');
+      h1.textContent = 'Resultados de "' + results.search_term + '"';
+      content.appendChild(h1);
 
-      category.content.forEach(method => {
-        const methodTitle = document.createElement('h3');
-        methodTitle.textContent = method.title;
-        content.appendChild(methodTitle);
+      results.categories.forEach(category => {
+        // Sidebar section
+        const navDiv = document.createElement('div');
+        navDiv.className = 'nav-section';
 
-        if (method.data && method.data.length > 0) {
-          const table = document.createElement('table');
-          const thead = document.createElement('thead');
-          const tbody = document.createElement('tbody');
+        const sectionTitle = document.createElement('p');
+        sectionTitle.textContent = category.section;
+        sectionTitle.onclick = () => {
+          document.getElementById('fuente-' + category.section)?.scrollIntoView({ behavior: 'smooth' });
+        };
+        navDiv.appendChild(sectionTitle);
 
-          // Header row
-          const headerRow = document.createElement('tr');
-          Object.keys(method.data[0]).forEach(key => {
-            const th = document.createElement('th');
-            th.textContent = key;
-            headerRow.appendChild(th);
-          });
-          thead.appendChild(headerRow);
+        const subnav = document.createElement('div');
+        subnav.className = 'subnav';
 
-          // Data rows
-          method.data.forEach(row => {
-            const tr = document.createElement('tr');
-            Object.entries(row).forEach(([key, value]) => {
-              const td = document.createElement('td');
-              
-              // Detectar si es una URL o si la columna contiene "link" o "url"
-              const isUrl = typeof value === 'string' && 
-                (value.startsWith('http://') || value.startsWith('https://'));
-              
-              if (isUrl) {
-                const link = document.createElement('a');
-                link.href = value;
-                link.textContent = value;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.style.color = '#1976d2';
-                link.style.textDecoration = 'underline';
-                td.appendChild(link);
-              } else {
-                td.textContent = value;
-              }
-              
-              tr.appendChild(td);
+        category.content.forEach(method => {
+          const a = document.createElement('a');
+          a.textContent = method.title;
+          a.onclick = () => {
+            document.getElementById(category.section + '-' + method.title)?.scrollIntoView({ behavior: 'smooth' });
+          };
+          subnav.appendChild(a);
+        });
+
+        navDiv.appendChild(subnav);
+        sidebar.appendChild(navDiv);
+
+        // Content section
+        const sectionContainer = document.createElement('div');
+        sectionContainer.id = 'fuente-' + category.section;
+
+        const h2 = document.createElement('h2');
+        h2.textContent = category.section;
+        sectionContainer.appendChild(h2);
+
+        category.content.forEach(method => {
+          const methodContainer = document.createElement('div');
+          methodContainer.id = category.section + '-' + method.title;
+
+          const h3 = document.createElement('h3');
+          h3.textContent = method.title;
+          methodContainer.appendChild(h3);
+
+          if (method.data && method.data.length > 0) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'table-wrapper';
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            const headerRow = document.createElement('tr');
+            Object.keys(method.data[0]).forEach(key => {
+              const th = document.createElement('th');
+              th.textContent = key;
+              headerRow.appendChild(th);
             });
-            tbody.appendChild(tr);
-          });
+            thead.appendChild(headerRow);
 
-          table.appendChild(thead);
-          table.appendChild(tbody);
-          content.appendChild(table);
-        }
+            method.data.forEach(row => {
+              const tr = document.createElement('tr');
+              Object.entries(row).forEach(([key, value]) => {
+                const td = document.createElement('td');
+                const isUrl = typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'));
+                if (isUrl) {
+                  const link = document.createElement('a');
+                  link.href = value;
+                  link.textContent = value;
+                  link.target = '_blank';
+                  link.rel = 'noopener noreferrer';
+                  td.appendChild(link);
+                } else {
+                  td.textContent = value;
+                }
+                tr.appendChild(td);
+              });
+              tbody.appendChild(tr);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            wrapper.appendChild(table);
+            methodContainer.appendChild(wrapper);
+          }
+
+          sectionContainer.appendChild(methodContainer);
+        });
+
+        content.appendChild(sectionContainer);
       });
-    });
-  }
 
-  renderResults(results);
-</script>
+      // Add final credit note after all content
+      const creditDiv = document.createElement('div');
+      creditDiv.style.marginTop = '3rem';
+      creditDiv.style.paddingTop = '2rem';
+      creditDiv.style.borderTop = '1px solid #ccc';
+      creditDiv.style.fontStyle = 'italic';
+      creditDiv.style.color = '#666';
+      creditDiv.style.textAlign = 'center';
+
+      const creditText = document.createElement('p');
+      creditText.textContent = 'Informe elaborado mediante la colaboración del Departamento de Sistemas Informáticos de la UPM y el IIER del ISCIII';
+
+      creditDiv.appendChild(creditText);
+      content.appendChild(creditDiv);
+    }
+  </script>
 </body>
 </html>
 `;
 
-    // Crear blob y descargar
     const blob = new Blob([htmlContent], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -154,10 +298,15 @@ const renderResults = (data) =>{
   return (
     <main className={styles.main}>
       <Header showNewSearch />
+      <button
+        className={styles.backTopBtn}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        <MdArrowUpward size={20} color="var(--color-white)" />
+      </button>
       <section className={styles.head}>
         <h1>Resultados de {`"${results.search_term}"`}</h1>
         <div className={styles.actionBtns}>
-          {/*  <button onClick={handleExportPDF}>Exportar PDF</button> */}
           <button onClick={() => handleExportHTML()}>Exportar</button>
         </div>
       </section>
@@ -233,7 +382,7 @@ const renderResults = (data) =>{
                               },
                             }}
                             rows={method.data.map((row, index) => ({
-                              id: index, // Required by DataGrid
+                              id: index,
                               ...row,
                             }))}
                             columns={Object.keys(method.data[0]).map((key) => ({
@@ -242,7 +391,6 @@ const renderResults = (data) =>{
                               flex: 1,
                               minWidth: key === "Function" ? 200 : 100,
                               renderCell: (params) => {
-                                // Detectar si es una URL o si la columna contiene "link" o "url"
                                 const value = params.value;
                                 const isUrl =
                                   typeof value === "string" &&
@@ -274,11 +422,11 @@ const renderResults = (data) =>{
                                 whiteSpace: "normal",
                                 wordBreak: "break-word",
                                 lineHeight: "1.4rem",
-                                paddingTop: "10px", // Optional: better vertical spacing
+                                paddingTop: "10px",
                                 paddingBottom: "10px",
                               },
                               "& .MuiDataGrid-virtualScroller": {
-                                overflowX: "hidden !important", // 💡 this is crucial
+                                overflowX: "hidden !important",
                               },
                             }}
                           />
@@ -288,7 +436,6 @@ const renderResults = (data) =>{
                           {method.data.map((value: any, index: number) => (
                             <div className={styles.value} key={index}>
                               {Object.entries(value).map(([key, value], i) => {
-                                // Detectar si es una URL o si la columna contiene "link" o "url"
                                 const isUrl =
                                   typeof value === "string" &&
                                   (value.startsWith("http://") ||
@@ -297,7 +444,6 @@ const renderResults = (data) =>{
                                 return (
                                   <div key={i} className={styles.field}>
                                     <strong>{key}</strong>
-
                                     {isUrl ? (
                                       <a
                                         href={value}
@@ -318,18 +464,6 @@ const renderResults = (data) =>{
                         </div>
                       )
                     ) : null}
-
-                    {/* <div className={styles.resultValues}>
-                      {method.data.map((value: any, index: number) => (
-                        <div className={styles.value} key={index}>
-                          {Object.entries(value).map(([key, value], i) => (
-                            <div key={i} className={styles.field}>
-                              <strong>{key}</strong> <p>{String(value)}</p>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div> */}
                   </div>
                 ))}
               </div>
